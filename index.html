@@ -1,0 +1,886 @@
+
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+							<style>
+								body {
+									background-color: white; /* Ensure the iframe has a white background */
+								}
+
+								
+							</style>
+                        </head>
+                        <body>
+                            <!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Magic Neurolocalizer · UF CVM</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:linear-gradient(135deg,#f8fafc 0%,#eef2ff 100%);min-height:100vh;color:#0f172a;}
+button{cursor:pointer;font-family:inherit;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeInFast{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.fade-in{animation:fadeIn .3s ease forwards}
+.fade-fast{animation:fadeInFast .2s ease forwards}
+
+/* Layout */
+.container{max-width:1100px;margin:0 auto;padding:2rem 1rem;}
+.header{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:1rem;margin-bottom:2rem;}
+.header-left h1{font-size:1.9rem;font-weight:800;color:#1e1b4b;display:flex;align-items:center;gap:.5rem;}
+.header-left p{color:#64748b;font-size:.85rem;margin-top:.2rem;}
+.header-right{display:flex;align-items:center;gap:.75rem;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+@media(max-width:800px){.grid{grid-template-columns:1fr;}}
+.col{display:flex;flex-direction:column;gap:1.25rem;}
+
+/* Cards */
+.card{background:#fff;border-radius:1.25rem;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,.06);padding:1.5rem;}
+.card-header{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;border-bottom:1px solid #f1f5f9;}
+.card-body{padding:1.5rem;}
+.section-title{font-size:.95rem;font-weight:600;display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;}
+.step-badge{background:#e0e7ff;color:#4338ca;width:1.5rem;height:1.5rem;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.7rem;font-weight:700;flex-shrink:0;}
+.subtitle{font-size:.72rem;color:#94a3b8;margin-bottom:1rem;margin-left:2rem;}
+
+/* Limb grid */
+.limb-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;}
+.limb-btn{padding:.75rem;border-radius:.875rem;border:2px solid #f1f5f9;background:#f8fafc;text-align:left;transition:all .15s;position:relative;}
+.limb-btn:hover{border-color:#c7d2fe;background:#eef2ff;}
+.limb-btn.active{border-color:#4f46e5;background:#eef2ff;color:#312e81;}
+.limb-btn .sublabel{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;font-weight:700;opacity:.4;display:block;}
+.limb-btn .mainlabel{font-weight:600;font-size:.9rem;}
+.limb-btn .check{position:absolute;top:.5rem;right:.5rem;}
+.limb-hint{font-size:.75rem;color:#4f46e5;font-weight:500;margin-top:.75rem;}
+
+/* Postural buttons */
+.postural-list{display:flex;flex-direction:column;gap:.5rem;}
+.post-btn{text-align:left;padding:.65rem 1rem;border-radius:.75rem;border:1px solid #f1f5f9;background:#f8fafc;font-size:.85rem;font-weight:500;color:#475569;transition:all .15s;}
+.post-btn:hover{border-color:#c7d2fe;}
+.post-btn.active{background:#4f46e5;color:#fff;border-color:#4f46e5;}
+.limb-sub{margin-top:1rem;padding:.75rem;background:#f8fafc;border-radius:.75rem;border:1px solid #e2e8f0;}
+.limb-sub-title{font-size:.7rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:.5rem;}
+.limb-sub-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.limb-sub-btn{padding:.5rem;border-radius:.5rem;border:1px solid #e2e8f0;background:#fff;font-size:.75rem;font-weight:500;color:#475569;text-align:center;transition:all .15s;}
+.limb-sub-btn:hover{border-color:#c7d2fe;}
+.limb-sub-btn.active{background:#4f46e5;color:#fff;border-color:#4f46e5;}
+
+/* Reflex buttons */
+.reflex-section{margin-bottom:1rem;}
+.reflex-section:last-child{margin-bottom:0;}
+.reflex-label{font-size:.85rem;font-weight:500;color:#475569;margin-bottom:.5rem;}
+.reflex-row{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;}
+.reflex-btn{padding:.6rem .75rem;border-radius:.75rem;border:1px solid #f1f5f9;background:#f8fafc;font-size:.8rem;font-weight:500;text-align:center;transition:all .15s;color:#475569;}
+.reflex-btn:hover{border-color:#cbd5e1;}
+.reflex-btn.lmn{background:#ef4444;color:#fff;border-color:#ef4444;}
+.reflex-btn.umn{background:#22c55e;color:#fff;border-color:#22c55e;}
+
+/* Submit */
+.submit-btn{width:100%;padding:1rem;border-radius:1rem;font-size:1rem;font-weight:700;border:none;display:flex;align-items:center;justify-content:center;gap:.5rem;transition:all .2s;}
+.submit-btn.ready{background:#4f46e5;color:#fff;box-shadow:0 4px 14px rgba(79,70,229,.35);}
+.submit-btn.ready:hover{background:#4338ca;transform:translateY(-1px);box-shadow:0 6px 20px rgba(79,70,229,.4);}
+.submit-btn.disabled{background:#e2e8f0;color:#94a3b8;cursor:not-allowed;}
+
+/* Results */
+.results-card{background:#fff;border-radius:1.25rem;border:1px solid #e2e8f0;box-shadow:0 1px 4px rgba(0,0,0,.06);opacity:.4;transition:opacity .3s;}
+.results-card.active{opacity:1;}
+.results-title{font-size:1.05rem;font-weight:700;display:flex;align-items:center;gap:.5rem;}
+.review-btn{display:flex;align-items:center;gap:.35rem;padding:.35rem .85rem;border-radius:999px;border:none;font-size:.75rem;font-weight:700;color:#fff;background:linear-gradient(135deg,#7c3aed,#4f46e5);box-shadow:0 2px 8px rgba(124,58,237,.3);transition:all .2s;}
+.review-btn:hover{transform:translateY(-1px);box-shadow:0 4px 12px rgba(124,58,237,.4);}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:16rem;text-align:center;gap:1rem;color:#94a3b8;}
+.empty-state p{font-size:.875rem;max-width:240px;}
+.no-match{display:flex;align-items:flex-start;gap:.75rem;padding:1rem;background:#fffbeb;border:1px solid #fde68a;border-radius:.875rem;color:#92400e;font-size:.85rem;}
+
+/* Match card */
+.match-card{border-left:4px solid;padding-left:1rem;}
+.match-badge{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;padding:.2rem .6rem;border-radius:999px;display:inline-block;margin-bottom:.5rem;}
+.match-title{font-size:1.25rem;font-weight:800;color:#0f172a;margin-bottom:.75rem;}
+.umn-pills{display:flex;gap:.5rem;margin-bottom:.75rem;}
+.umn-pill{flex:1;background:#f8fafc;border:1px solid #e2e8f0;border-radius:.625rem;padding:.5rem .75rem;text-align:center;}
+.umn-pill .pill-seg{font-size:.65rem;font-weight:700;text-transform:uppercase;color:#94a3b8;margin-bottom:.15rem;}
+.umn-pill .pill-val{font-weight:700;font-size:.85rem;}
+.pill-val.lmn{color:#ef4444;}
+.pill-val.umn{color:#22c55e;}
+.pill-val.normal{color:#64748b;}
+.finding-list{list-style:none;display:flex;flex-direction:column;gap:.4rem;margin-bottom:.75rem;}
+.finding-item{display:flex;align-items:flex-start;gap:.4rem;font-size:.85rem;color:#334155;}
+.explanation-box{background:#f8fafc;border:1px solid #e2e8f0;border-radius:.75rem;padding:.75rem;font-size:.82rem;color:#475569;font-style:italic;line-height:1.6;}
+.match-inner{display:flex;align-items:flex-start;gap:1rem;}
+.match-content{flex:1;}
+
+/* Case review */
+.review-gate{border-radius:1.25rem;overflow:hidden;border:1px solid #ddd6fe;}
+.review-gate-inner{padding:1.5rem;text-align:center;background:linear-gradient(135deg,#f5f3ff,#eef2ff);}
+.review-icon{width:3.5rem;height:3.5rem;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#4f46e5);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;}
+.review-gate h4{font-weight:700;color:#4c1d95;font-size:1.05rem;margin-bottom:.35rem;}
+.review-gate .localize-to{font-size:.85rem;color:#5b21b6;margin-bottom:.25rem;}
+.review-gate .localize-name{font-size:1.15rem;font-weight:800;color:#1e1b4b;margin-bottom:1rem;}
+.case-summary-box{background:rgba(255,255,255,.7);border-radius:.75rem;padding:.75rem;margin-bottom:1.25rem;text-align:left;}
+.case-summary-box .csb-title{font-size:.65rem;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.05em;text-align:center;margin-bottom:.5rem;}
+.case-summary-box .csb-row{font-size:.78rem;color:#334155;margin-bottom:.25rem;}
+.open-review-btn{width:100%;padding:.75rem;border-radius:.75rem;border:none;font-weight:700;color:#fff;font-size:.875rem;background:linear-gradient(135deg,#7c3aed,#4f46e5);transition:all .2s;}
+.open-review-btn:hover{transform:translateY(-1px);box-shadow:0 4px 14px rgba(124,58,237,.35);}
+.review-panel{background:#fff;border:1px solid #ddd6fe;border-radius:1.25rem;overflow:hidden;}
+.review-panel-header{display:flex;align-items:center;justify-content:space-between;padding:.875rem 1.25rem;background:linear-gradient(135deg,rgba(124,58,237,.08),rgba(79,70,229,.08));}
+.review-panel-header-left{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;}
+.review-panel-title{font-size:.875rem;font-weight:700;color:#4c1d95;}
+.review-panel-badge{font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:999px;background:#ede9fe;color:#5b21b6;}
+.close-btn{font-size:.75rem;color:#a78bfa;background:none;border:none;cursor:pointer;transition:color .15s;}
+.close-btn:hover{color:#5b21b6;}
+.tabs{display:flex;overflow-x:auto;border-bottom:1px solid #f1f5f9;padding:0 .5rem;gap:.25rem;padding-top:.5rem;}
+.tab-btn{padding:.5rem .75rem;font-size:.75rem;font-weight:600;border:none;background:none;border-bottom:2px solid transparent;color:#94a3b8;cursor:pointer;white-space:nowrap;transition:all .15s;}
+.tab-btn:hover{color:#475569;}
+.tab-btn.active{border-bottom-color:#7c3aed;color:#5b21b6;background:#faf5ff;}
+.tab-content{padding:1.25rem;font-size:.875rem;color:#334155;line-height:1.7;min-height:180px;}
+.tab-content pre{white-space:pre-wrap;font-family:inherit;font-size:.875rem;}
+.ddx-item{background:#f8fafc;border:1px solid #e2e8f0;border-radius:.75rem;padding:.875rem;margin-bottom:.625rem;}
+.ddx-num{font-size:.7rem;font-weight:700;padding:.15rem .5rem;border-radius:999px;background:#ede9fe;color:#5b21b6;margin-right:.4rem;}
+.ddx-name{font-weight:600;font-size:.85rem;color:#0f172a;}
+.ddx-reason{font-size:.78rem;color:#64748b;margin-top:.35rem;line-height:1.55;padding-left:1.5rem;}
+.workup-box{background:#eff6ff;border:1px solid #bfdbfe;border-radius:.75rem;padding:1rem;font-size:.85rem;color:#1e40af;line-height:1.7;}
+.pearl-box{background:linear-gradient(135deg,#fefce8,#fef3c7);border:1px solid #fde68a;border-radius:.75rem;padding:1.25rem;}
+.pearl-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;}
+.pearl-text{color:#78350f;line-height:1.7;font-size:.875rem;white-space:pre-line;}
+.umnlmn-pills{display:flex;gap:.75rem;margin-bottom:1rem;}
+.umnlmn-pill{flex:1;border-radius:.75rem;padding:.75rem;text-align:center;border:1px solid;}
+.umnlmn-pill .seg{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#94a3b8;margin-bottom:.25rem;}
+.umnlmn-pill .val{font-weight:800;font-size:1.1rem;}
+
+/* Quick ref */
+.quick-ref{background:linear-gradient(135deg,#1e1b4b,#312e81);color:#fff;border-radius:1.25rem;padding:1.5rem;position:relative;overflow:hidden;}
+.quick-ref-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-top:1rem;}
+.qr-item{background:rgba(255,255,255,.08);border-radius:.875rem;padding:.875rem;}
+.qr-seg{font-weight:700;font-size:.85rem;margin-bottom:.35rem;}
+.qr-line{font-size:.78rem;color:#a5b4fc;line-height:1.8;}
+
+/* Reset btn */
+.reset-btn{display:flex;align-items:center;gap:.35rem;padding:.5rem 1rem;font-size:.85rem;font-weight:500;color:#64748b;background:none;border:1px solid transparent;border-radius:.75rem;transition:all .15s;}
+.reset-btn:hover{color:#4f46e5;background:#fff;border-color:#e0e7ff;}
+
+/* Spine SVG wrapper */
+.spine-wrap{flex-shrink:0;}
+
+/* Footer */
+.footer{text-align:center;font-size:.72rem;color:#94a3b8;margin-top:2.5rem;padding-bottom:1.5rem;}
+
+/* Typing cursor */
+.typing::after{content:'▋';animation:fadeInFast .7s ease infinite alternate;}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <div class="header-left">
+      <h1>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        Magic Neurolocalizer
+      </h1>
+      <p>Veterinary Neurolocalization Learning Tool · UF College of Veterinary Medicine</p>
+    </div>
+    <div class="header-right">
+      <svg id="ring-svg" width="48" height="48" viewBox="0 0 48 48">
+        <circle cx="24" cy="24" r="18" fill="none" stroke="#e2e8f0" stroke-width="4"/>
+        <circle id="ring-progress" cx="24" cy="24" r="18" fill="none" stroke="#4f46e5" stroke-width="4"
+          stroke-dasharray="0 113.1" stroke-linecap="round" transform="rotate(-90 24 24)"
+          style="transition:stroke-dasharray .4s ease"/>
+        <text id="ring-text" x="24" y="28" text-anchor="middle" font-size="11" font-weight="bold" fill="#4f46e5">0%</text>
+      </svg>
+      <button class="reset-btn" onclick="resetAll()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2v6h6"/><path d="M3 8C5.6 4.4 10 2 15 2c5.5 0 10 4.5 10 10s-4.5 10-10 10S5 17.5 5 12"/></svg>
+        Reset
+      </button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <!-- INPUT -->
+    <div class="col">
+
+      <!-- Step 1 -->
+      <div class="card">
+        <div class="section-title">
+          <span class="step-badge">1</span>
+          Which limbs show weakness or ataxia?
+        </div>
+        <div class="limb-grid">
+          <button class="limb-btn" id="lb-rf" onclick="toggleLimb('rf')">
+            <span class="sublabel">Right Front</span>
+            <span class="mainlabel">Right Front</span>
+            <svg class="check" id="chk-rf" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </button>
+          <button class="limb-btn" id="lb-lf" onclick="toggleLimb('lf')">
+            <span class="sublabel">Left Front</span>
+            <span class="mainlabel">Left Front</span>
+            <svg class="check" id="chk-lf" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </button>
+          <button class="limb-btn" id="lb-rb" onclick="toggleLimb('rb')">
+            <span class="sublabel">Right Back</span>
+            <span class="mainlabel">Right Back</span>
+            <svg class="check" id="chk-rb" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </button>
+          <button class="limb-btn" id="lb-lb" onclick="toggleLimb('lb')">
+            <span class="sublabel">Left Back</span>
+            <span class="mainlabel">Left Back</span>
+            <svg class="check" id="chk-lb" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </button>
+        </div>
+        <div id="limb-hint" class="limb-hint" style="display:none"></div>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="card">
+        <div class="section-title">
+          <span class="step-badge">2</span>
+          Postural Reactions
+        </div>
+        <div class="subtitle">Conscious proprioception / paw placement test</div>
+        <div class="postural-list">
+          <button class="post-btn" id="pb-all_four"   onclick="setPostural('all_four')">Delayed in all four limbs</button>
+          <button class="post-btn" id="pb-front_only" onclick="setPostural('front_only')">Delayed in front (thoracic) limbs only</button>
+          <button class="post-btn" id="pb-back_only"  onclick="setPostural('back_only')">Delayed in back (pelvic) limbs only</button>
+          <button class="post-btn" id="pb-one_limb"   onclick="setPostural('one_limb')">Delayed in one limb only (monoparesis)</button>
+          <button class="post-btn" id="pb-normal"     onclick="setPostural('normal')">Normal in all limbs</button>
+        </div>
+        <div id="limb-sub" class="limb-sub" style="display:none">
+          <div class="limb-sub-title">Which limb?</div>
+          <div class="limb-sub-grid">
+            <button class="limb-sub-btn" id="psb-rf" onclick="setPosturalLimb('rf')">Right Front</button>
+            <button class="limb-sub-btn" id="psb-lf" onclick="setPosturalLimb('lf')">Left Front</button>
+            <button class="limb-sub-btn" id="psb-rb" onclick="setPosturalLimb('rb')">Right Back</button>
+            <button class="limb-sub-btn" id="psb-lb" onclick="setPosturalLimb('lb')">Left Back</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="card">
+        <div class="section-title">
+          <span class="step-badge">3</span>
+          Segmental Reflexes
+        </div>
+        <div class="subtitle">Patellar (pelvic) · Biceps / Triceps (thoracic)</div>
+        <div class="reflex-section">
+          <div class="reflex-label">Thoracic Limb Reflexes</div>
+          <div class="reflex-row">
+            <button class="reflex-btn" id="rt-decreased"       onclick="setReflex('thoracic','decreased')">↓ Decreased (LMN)</button>
+            <button class="reflex-btn" id="rt-normal_increased" onclick="setReflex('thoracic','normal_increased')">↑ Normal / Increased (UMN)</button>
+          </div>
+        </div>
+        <div class="reflex-section">
+          <div class="reflex-label">Pelvic Limb Reflexes</div>
+          <div class="reflex-row">
+            <button class="reflex-btn" id="rp-decreased"       onclick="setReflex('pelvic','decreased')">↓ Decreased (LMN)</button>
+            <button class="reflex-btn" id="rp-normal_increased" onclick="setReflex('pelvic','normal_increased')">↑ Normal / Increased (UMN)</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="submit-btn disabled" id="submit-btn" onclick="suggest()">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span id="submit-text">Complete all fields to continue (0%)</span>
+      </button>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="col" id="results-col">
+      <div class="results-card" id="results-card">
+        <div class="card-header">
+          <div class="results-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#4f46e5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Analysis Results
+          </div>
+          <button class="review-btn" id="review-btn" onclick="openReview()" style="display:none">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Case Review
+          </button>
+        </div>
+        <div class="card-body" id="results-body">
+          <div class="empty-state">
+            <svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            <p>Fill in the exam findings on the left, then press <strong>Suggest Neurolocalization</strong>.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Reference -->
+      <div class="quick-ref">
+        <svg width="110" height="110" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;bottom:-1rem;right:-1rem;opacity:.08"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <div style="position:relative;z-index:1;">
+          <div style="font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:.4rem;margin-bottom:.25rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Quick Reference
+          </div>
+          <div style="font-size:.75rem;color:#a5b4fc;margin-bottom:.875rem;">LMN lesion = ↓ reflexes (flaccid) · UMN lesion = ↑ reflexes (spastic)</div>
+          <div class="quick-ref-grid">
+            <div class="qr-item"><div class="qr-seg">C1–C5</div><div class="qr-line">TL: <span style="color:#6ee7b7">UMN</span><br>PL: <span style="color:#6ee7b7">UMN</span><br><span style="color:#818cf8;font-style:italic">Tetraparesis</span></div></div>
+            <div class="qr-item"><div class="qr-seg">C6–T2</div><div class="qr-line">TL: <span style="color:#fca5a5">LMN</span><br>PL: <span style="color:#6ee7b7">UMN</span><br><span style="color:#818cf8;font-style:italic">Cervical intumescence</span></div></div>
+            <div class="qr-item"><div class="qr-seg">T3–L3</div><div class="qr-line">TL: <span style="color:#fff">Normal</span><br>PL: <span style="color:#6ee7b7">UMN</span><br><span style="color:#818cf8;font-style:italic">Paraparesis</span></div></div>
+            <div class="qr-item"><div class="qr-seg">L4–S3</div><div class="qr-line">TL: <span style="color:#fff">Normal</span><br>PL: <span style="color:#fca5a5">LMN</span><br><span style="color:#818cf8;font-style:italic">Lumbar intumescence</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">UF College of Veterinary Medicine · Neurolocalization Learning Tool · For educational use only</div>
+</div>
+
+<script>
+// ── STATE ─────────────────────────────────────────────────────────────────────
+var state = {
+  limbs: [],
+  postural: '',
+  posturalLimb: '',
+  reflexThoracic: '',
+  reflexPelvic: '',
+  result: null,
+  reviewOpen: false,
+  reviewTab: 'localization',
+  typewriterTimer: null,
+  typedText: '',
+  fullText: ''
+};
+
+var LIMB_LABELS = {rf:'Right Front',lf:'Left Front',rb:'Right Back',lb:'Left Back'};
+
+// ── PATTERN DATA ──────────────────────────────────────────────────────────────
+var PATTERNS = [
+  {
+    id:'P_C1C5', title:'C1–C5 Spinal Cord',
+    color:'#4f46e5', badgeBg:'#e0e7ff', badgeText:'#3730a3',
+    borderColor:'#6366f1', spineY:10,
+    limbs:['all_four'], postural:['all_four'],
+    reflexThoracic:'normal_increased', reflexPelvic:'normal_increased',
+    umn:{thoracic:'UMN',pelvic:'UMN'},
+    explanation:'UMN signs in all four limbs. Both thoracic AND pelvic reflexes are normal-to-increased, placing the lesion cranial to the cervical intumescence (C6–T2). Neck pain and restricted cervical range of motion are common clinical features that help distinguish this from intracranial disease.',
+    review:{
+      localization:'The findings point to a lesion between C1 and C5 — the region of the spinal cord cranial to the cervical intumescence. Because this segment sits upstream of both intumescences, it disrupts descending motor pathways to all four limbs without directly damaging any motor neuron cell bodies.\n\nKey clinical pointer: neck pain and reduced cervical range of motion are common with C1–C5 lesions. Their presence helps distinguish this from intracranial disease, which would also produce tetraparesis but is typically accompanied by altered mentation, cranial nerve deficits, or seizures rather than neck pain.',
+      umnLmn:'All four limbs show Upper Motor Neuron (UMN) signs. The descending corticospinal and rubrospinal tracts, which normally exert inhibitory control over local reflex arcs, are interrupted above both intumescences. With that inhibition removed, the reflex arcs become disinhibited — producing normal-to-increased reflexes and spastic muscle tone in every limb.\n\nImportantly, no Lower Motor Neuron (LMN) cell bodies are damaged at this level. This means there is no neurogenic muscle atrophy in the early phase. Atrophy that develops over time is disuse atrophy — more gradual and affecting all muscle groups equally, unlike the focal rapid atrophy seen with LMN lesions.',
+      differentials:[
+        {name:'Intervertebral Disc Disease (IVDD) — Hansen Type I or II',reason:'The most common cause of acute-to-subacute cervical myelopathy, particularly in chondrodystrophic breeds (Dachshund, Beagle, French Bulldog). Disc extrusion or protrusion at C2–C5 compresses the cord and typically presents with neck pain and varying degrees of UMN tetraparesis.'},
+        {name:'Atlantoaxial (C1–C2) Instability or Subluxation',reason:'Particularly common in toy and small breeds (Chihuahua, Yorkshire Terrier, Pomeranian). Instability at the C1–C2 articulation — often due to absent or hypoplastic dens — causes progressive or acute UMN tetraparesis and neck pain.'},
+        {name:'Cervical Spondylomyelopathy (Wobbler Syndrome)',reason:'Affects large and giant breeds, most commonly Doberman Pinschers and Great Danes (C3–C7). Chronic, progressive UMN signs in all four limbs due to spinal cord compression; pelvic limbs typically more severely affected.'}
+      ],
+      pearl:'Rule of thumb: if all four limb reflexes are normal-to-increased AND the animal has neck pain, your lesion is between C1 and C5.\n\nThe cervical intumescence begins at C6 — once you reach it, the thoracic limb reflexes drop (LMN). UMN tetraparesis WITHOUT neck pain should prompt you to rule out intracranial disease with a thorough cranial nerve exam and assessment of mentation.',
+      workup:'MRI of the cervical spine is the gold standard and allows assessment of cord signal change, disc material, and soft tissue structures. Survey cervical radiographs may reveal disc calcification, atlantoaxial subluxation, or vertebral malformation. CSF analysis (collected at the cisterna magna) helps characterize inflammatory vs. compressive disease. For atlantoaxial instability, CT with 3D reconstruction provides the best detail of the dens and C1–C2 articulation.'
+    }
+  },
+  {
+    id:'P_C6T2', title:'C6–T2 Spinal Cord',
+    color:'#7c3aed', badgeBg:'#ede9fe', badgeText:'#4c1d95',
+    borderColor:'#8b5cf6', spineY:25,
+    limbs:['all_four','both_front'], postural:['all_four','front_only'],
+    reflexThoracic:'decreased', reflexPelvic:'normal_increased',
+    umn:{thoracic:'LMN',pelvic:'UMN'},
+    explanation:'LMN signs in the thoracic limbs + UMN signs in the pelvic limbs = lesion within the cervical intumescence (C6–T2). The motor neuron cell bodies for the brachial plexus originate here, so damage produces flaccid thoracic limb deficits alongside spastic pelvic limb deficits.',
+    review:{
+      localization:'The split picture — LMN in the thoracic limbs, UMN in the pelvic limbs — is the defining hallmark of a cervical intumescence (C6–T2) lesion. This is where the motor neuron cell bodies for the brachial plexus originate (C6–T2 ventral horn).\n\nA lesion here does two things simultaneously:\n• It destroys or damages the LMN cell bodies supplying the thoracic limbs → flaccid paresis, decreased reflexes, rapid neurogenic atrophy\n• It interrupts the descending UMN tracts passing through to the pelvic limbs → spastic paresis, normal-to-increased reflexes, preserved muscle mass',
+      umnLmn:'Thoracic limbs show LMN signs because the motor neurons themselves are damaged:\n• Decreased or absent biceps, triceps, and withdrawal reflexes\n• Flaccid muscle tone\n• Rapid neurogenic muscle atrophy (visible within 7–10 days)\n• Specific muscles affected depend on nerve roots involved (C6–C8 → biceps/flexors; C7–T1 → triceps/extensors)\n\nPelvic limbs show UMN signs because descending tracts are interrupted but lumbar intumescence motor neurons are intact:\n• Normal-to-increased patellar reflex\n• Spastic tone\n• Preserved muscle mass (initially)\n• Delayed or absent postural reactions',
+      differentials:[
+        {name:'IVDD at C6–C7 or C7–T1',reason:'Disc extrusion at the caudal cervical intumescence is a classic cause, particularly in large breeds (Labrador Retriever, German Shepherd). Can present acutely with severe thoracic limb LMN signs and pelvic limb UMN signs.'},
+        {name:'Nerve Sheath Tumor (involving C6–T2 roots)',reason:'Slow, progressive, often asymmetric paresis affecting one or both thoracic limbs. Usually painful. May initially mimic orthopaedic disease.'},
+        {name:'Cervical Spondylomyelopathy (caudal cervical, C6–T2)',reason:'In Dobermans, compression most commonly occurs at C5–C6 and C6–C7. When severe, can produce LMN thoracic limb signs alongside UMN pelvic limb signs, mimicking a true intumescence lesion.'}
+      ],
+      pearl:'Spot the cervical intumescence by asking: "Which end has the LMN signs?"\n\n• LMN in the FRONT end (thoracic limbs) → C6–T2\n• LMN in the BACK end (pelvic limbs) → L4–S3\n• LMN in ALL four limbs → think outside the spine (generalized neuromuscular disease)\n\nThe two intumescences are the "bumps" in the spinal cord where the limb plexuses originate. LMN signs always point to the intumescence serving those limbs.',
+      workup:'MRI of the caudal cervical spine (C5–T2) is the imaging of choice. EMG can confirm LMN denervation in specific thoracic limb muscle groups — fibrillation potentials and positive sharp waves appear 5–7 days after LMN injury. Nerve conduction studies (NCS) assess motor nerve integrity. CSF analysis to evaluate for inflammatory myelopathy.'
+    }
+  },
+  {
+    id:'P_T3L3', title:'T3–L3 Spinal Cord',
+    color:'#2563eb', badgeBg:'#dbeafe', badgeText:'#1e3a8a',
+    borderColor:'#3b82f6', spineY:50,
+    limbs:['both_back'], postural:['back_only'],
+    reflexThoracic:'normal_increased', reflexPelvic:'normal_increased',
+    umn:{thoracic:'Normal',pelvic:'UMN'},
+    explanation:'Normal thoracic limbs + UMN pelvic limb signs = classic thoracolumbar localization between the two intumescences. This is the most common spinal cord localization in small animal practice.',
+    review:{
+      localization:'This is the most common spinal cord localization in small animal practice. The lesion lies in the thoracolumbar region (T3–L3), between the two intumescences.\n\nThe thoracic limbs are completely spared because their entire motor pathway is rostral to the lesion. The pelvic limbs show UMN signs because the descending motor tracts are interrupted before reaching the lumbar intumescence — but the pelvic limb motor neurons themselves (L4–S3) remain intact.\n\nLocalizing pain on spinal palpation is a critical clinical finding that helps narrow the MRI window.',
+      umnLmn:'Thoracic limbs are neurologically normal — all motor neuron pathways are rostral to the lesion and completely intact.\n\nPelvic limbs show UMN signs:\n• Normal-to-increased patellar reflex\n• Normal-to-increased withdrawal reflex\n• Spastic muscle tone\n• Delayed or absent postural reactions\n• Preserved muscle mass in the acute phase\n\nThe Schiff-Sherrington phenomenon — rigid extensor tone of the thoracic limbs with flaccid pelvic limbs — can occur with severe T3–L3 lesions. It does NOT mean the thoracic limbs are neurologically affected; it is a release phenomenon indicating severe myelopathy.',
+      differentials:[
+        {name:'Thoracolumbar IVDD — Hansen Type I',reason:'The single most common cause in chondrodystrophic breeds (Dachshund, Beagle, French Bulldog, Corgi). Acute onset of paraparesis or paraplegia, often with severe focal spinal pain at the thoracolumbar junction (T12–L2 most common).'},
+        {name:'Fibrocartilaginous Embolism (FCE)',reason:'Acute, non-progressive, typically non-painful (after the initial event) paraparesis, often following exercise. Frequently asymmetric. Most common in large breeds (Labrador Retriever, Golden Retriever, German Shepherd). MRI shows intramedullary T2 hyperintensity without compressive lesion.'},
+        {name:'Spinal Cord Neoplasia (meningioma, lymphoma, nephroblastoma)',reason:'Slower, progressive UMN paraparesis. Meningiomas most common in older large-breed dogs and cats. Lymphoma in young dogs and cats. Nephroblastoma at T10–L2 in young dogs.'}
+      ],
+      pearl:'The T3–L3 pattern is the "easy" localization — normal front end, UMN back end, every time.\n\nThe real clinical challenge is differentiating the two most common causes:\n• IVDD: acute onset, focal spinal pain, often progressive, chondrodystrophic breed\n• FCE: peracute onset, non-painful after initial event, non-progressive after 24 hours, large breed, often asymmetric\n\nDeep pain perception (DPP) testing is the most important prognostic indicator. Absent DPP = severe myelopathy and a guarded-to-poor prognosis.',
+      workup:'MRI of the thoracolumbar spine is the diagnostic gold standard. Survey thoracolumbar radiographs may reveal disc calcification or collapse. Careful pain localization on spinal palpation helps narrow the MRI window. CSF analysis from the lumbar cistern to differentiate inflammatory from compressive disease.'
+    }
+  },
+  {
+    id:'P_L4S3', title:'L4–S3 Spinal Cord',
+    color:'#0891b2', badgeBg:'#cffafe', badgeText:'#164e63',
+    borderColor:'#06b6d4', spineY:72,
+    limbs:['both_back'], postural:['back_only'],
+    reflexThoracic:'normal_increased', reflexPelvic:'decreased',
+    umn:{thoracic:'Normal',pelvic:'LMN'},
+    explanation:'Normal thoracic limbs + LMN pelvic limb signs = lesion in the lumbar intumescence (L4–S3). The motor neuron cell bodies for the sciatic and femoral nerves are directly damaged, producing flaccid pelvic limb weakness.',
+    review:{
+      localization:'The lesion is within the lumbar intumescence (L4–S3) — the origin of the femoral nerve (L4–L6), the sciatic nerve (L6–S2), and the pudendal nerve (S1–S3) supplying the bladder, anal sphincter, and perineum.\n\nUnlike T3–L3 lesions that produce UMN pelvic limb signs, L4–S3 lesions directly damage the motor neuron cell bodies, producing flaccid weakness. This distinction — UMN vs. LMN pelvic limb signs — is the single most important differentiator between T3–L3 and L4–S3 localization.\n\nAlways assess bladder and anal sphincter function in L4–S3 lesions.',
+      umnLmn:'Pelvic limbs show LMN signs because the motor neurons themselves are damaged:\n• Decreased or absent patellar reflex (femoral nerve, L4–L6)\n• Decreased or absent withdrawal reflex (sciatic nerve, L6–S2)\n• Flaccid muscle tone\n• Rapid neurogenic muscle atrophy (visible within 7–10 days)\n• Absent postural reactions\n\nThe thoracic limbs are completely normal.\n\nSacral involvement (S1–S3) adds:\n• Decreased or absent perineal reflex\n• Reduced or absent anal tone\n• Urinary and/or fecal incontinence (LMN bladder: large, easily expressed, dribbling)\n• Tail weakness or paralysis',
+      differentials:[
+        {name:'Lumbosacral IVDD / Degenerative Lumbosacral Stenosis (DLSS)',reason:'Most common in large breeds, especially German Shepherds and Labrador Retrievers. Compression of the cauda equina at L7–S1 causes LMN pelvic limb signs, tail weakness, perineal hypalgesia, and often urinary/fecal incontinence.'},
+        {name:'Discospondylitis (lumbosacral region)',reason:'Bacterial (Staphylococcus, Brucella) or fungal infection of the disc and adjacent vertebral endplates. Presents with severe lumbosacral pain, fever, progressive LMN signs. Blood cultures, urine culture, and Brucella serology are essential.'},
+        {name:'Lumbosacral Neoplasia',reason:'Primary or metastatic tumors involving L4–S3 nerve roots or vertebral bodies. Progressive, often asymmetric LMN pelvic limb signs with variable pain. MRI with contrast is essential.'}
+      ],
+      pearl:'Always assess the FULL sacral reflex arc in L4–S3 lesions.\n\nTest the perineal reflex (touch perineum → anal wink), assess anal sphincter tone on rectal palpation, and evaluate bladder size and expression. Sacral (S1–S3) involvement changes both prognosis and management significantly.\n\nCT alone (without myelography) is often preferred at the lumbosacral junction because the subarachnoid space is naturally narrow there. MRI remains the gold standard.',
+      workup:'MRI of the lumbosacral junction is the gold standard. CT provides excellent bony detail for surgical planning. CT myelography is less useful due to the narrow subarachnoid space at L7–S1. EMG/NCS identifies denervation in specific muscle groups. Urinalysis, urine culture, blood cultures, and Brucella serology as indicated.'
+    }
+  },
+  {
+    id:'P_mono_TL', title:'C6–T2 (Unilateral) or Brachial Plexus',
+    color:'#7c3aed', badgeBg:'#ede9fe', badgeText:'#4c1d95',
+    borderColor:'#a855f7', spineY:22,
+    limbs:['rf','lf'], postural:['one_limb'],
+    reflexThoracic:'decreased', reflexPelvic:'normal_increased',
+    umn:{thoracic:'LMN (unilateral)',pelvic:'UMN'},
+    explanation:'Monoparesis of a single thoracic limb with LMN signs points to a unilateral C6–T2 lesion or brachial plexus nerve root disease. The "nerve root signature" — progressive single limb lameness with negative orthopaedic workup — is a key clinical red flag.',
+    review:{
+      localization:'Single thoracic limb LMN signs localize to:\n1. A unilateral (lateralized) lesion affecting one side of the cervical intumescence (C6–T2)\n2. Disease of the brachial plexus nerve roots directly (C6–T2 roots)\n3. A peripheral nerve of the thoracic limb (radial, median, ulnar)\n\nThe "nerve root signature" is a classic clinical pattern: a dog presents with non-weight-bearing lameness of one thoracic limb, a negative orthopaedic workup, and slowly progressive LMN signs. This pattern should raise immediate suspicion for nerve sheath tumor.\n\nIf the ipsilateral pelvic limb also shows UMN signs, the lesion is likely within the spinal cord. If the pelvic limbs are normal, a peripheral nerve or brachial plexus lesion is more likely.',
+      umnLmn:'The affected thoracic limb shows LMN signs:\n• Decreased or absent specific reflexes (biceps C6–C8; triceps C7–T1; withdrawal)\n• Flaccid muscle tone\n• Progressive neurogenic muscle atrophy specific to muscles supplied by the affected root\n• C6 → cranial forearm; C7–C8 → caudal forearm; T1 → medial forearm\n\nHorner syndrome (ptosis, miosis, enophthalmos, prolapsed nictitans) may accompany C8–T1–T2 lesions due to disruption of the sympathetic pathway. Its presence is an important localizing sign.',
+      differentials:[
+        {name:'Nerve Sheath Tumor (Schwannoma / MPNST)',reason:'The most important diagnosis to rule out in a dog with progressive thoracic limb monoparesis and negative orthopaedic workup. Insidious onset, typically painful, slowly progressive over weeks to months. Always include thoracic radiographs to evaluate for pulmonary metastasis.'},
+        {name:'Brachial Plexus Avulsion (traumatic)',reason:'Sudden onset following road traffic accident, fall, or forceful traction. Root avulsion (C6–T2) produces ipsilateral Horner syndrome and loss of the ipsilateral panniculus reflex. Preganglionic avulsions are not surgically repairable; prognosis is poor.'},
+        {name:'Lateralized IVDD (C6–C7 or C7–T1)',reason:'Lateral disc extrusion compresses one side of the cord and/or specific nerve roots, causing ipsilateral LMN thoracic limb signs. MRI reveals the lateralized disc material.'}
+      ],
+      pearl:'The "nerve root signature" is one of the most important clinical patterns in veterinary neurology:\n\nA dog presents with non-weight-bearing lameness of ONE thoracic limb → complete orthopaedic workup is negative → signs slowly progress over weeks → LMN signs develop.\n\nThis is nerve sheath tumor until proven otherwise. Do not allow repeated "recheck in 4 weeks" without imaging. Early MRI of the cervical spine and brachial plexus — including the axilla — is essential.',
+      workup:'MRI of the cervical spine and brachial plexus (including the axillary region) — nerve sheath tumors can extend well beyond the spinal canal. Thoracic radiographs (3 views) to evaluate for pulmonary metastasis. EMG/NCS to map denervation pattern and localize the lesion. Ultrasound-guided FNA or surgical biopsy for tissue diagnosis.'
+    }
+  },
+  {
+    id:'P_mono_PL', title:'L4–S3 (Unilateral) or Peripheral Nerve',
+    color:'#0d9488', badgeBg:'#ccfbf1', badgeText:'#134e4a',
+    borderColor:'#14b8a6', spineY:70,
+    limbs:['rb','lb'], postural:['one_limb'],
+    reflexThoracic:'normal_increased', reflexPelvic:'decreased',
+    umn:{thoracic:'Normal',pelvic:'LMN (unilateral)'},
+    explanation:'Monoparesis of a single pelvic limb with decreased reflexes localizes to the ipsilateral lumbar intumescence (L4–S3) or, more commonly, a specific peripheral nerve — most often the sciatic or femoral nerve.',
+    review:{
+      localization:'Single pelvic limb LMN signs localize to:\n1. A unilateral (lateralized) lesion of the lumbar intumescence (L4–S3)\n2. The sciatic nerve (L6–S2) — most commonly injured nerve in the pelvic limb\n3. The femoral nerve (L4–L6) — produces characteristic inability to extend the stifle\n\nCareful reflex testing differentiates these:\n• Absent patellar reflex → femoral nerve (L4–L6)\n• Absent withdrawal reflex → sciatic nerve (L6–S2)\n• Both absent → lumbar intumescence lesion or combined nerve injury\n\nThe thoracic limbs and contralateral pelvic limb are normal, confirming the focal unilateral nature.',
+      umnLmn:'The affected pelvic limb shows LMN signs:\n• Specific reflex loss based on nerve involved (patellar → femoral; withdrawal → sciatic)\n• Flaccid muscle tone\n• Progressive neurogenic muscle atrophy in the distribution of the affected nerve\n  - Femoral: rapid quadriceps atrophy; unable to bear weight (cannot extend stifle)\n  - Sciatic: caudal thigh muscles, crural muscles; "dropped hock," knuckling\n\nSensory testing helps confirm the nerve involved and assess the severity of sensory loss.',
+      differentials:[
+        {name:'Sciatic Nerve Injury (iatrogenic or traumatic)',reason:'Vulnerable to injection injury (always inject in the cranial thigh, never the caudal thigh), pelvic fracture, sacroiliac luxation. Classic presentation: "dropped hock," knuckling, absent withdrawal reflex, caudal thigh atrophy.'},
+        {name:'Femoral Nerve Injury',reason:'May follow retractor injury during TPLO or femoral fracture repair, or result from retroperitoneal hemorrhage. Presents as inability to bear weight, absent patellar reflex, and rapid quadriceps atrophy.'},
+        {name:'Lateralized L4–S3 IVDD or Lumbosacral Neoplasia',reason:'A disc extrusion or tumor affecting one side of the lumbar intumescence produces unilateral LMN pelvic limb signs that mimic peripheral nerve disease. MRI will reveal the spinal lesion.'}
+      ],
+      pearl:'Always test BOTH the patellar reflex AND the withdrawal reflex in every pelvic limb monoparesis case:\n\n• Absent patellar = femoral nerve (L4–L6) — stifle collapses, cannot bear weight\n• Absent withdrawal = sciatic nerve (L6–S2) — can bear weight but knuckles with "dropped hock"\n• Both absent = lumbar intumescence (L4–S3) or combined lesion\n\nIatrogenic sciatic injury from IM injections is entirely preventable — always inject in the cranial muscle mass of the thigh.',
+      workup:'Careful neurological mapping of the sensory deficit before imaging. MRI of the lumbar spine and lumbosacral plexus for suspected spinal lesions. EMG and NCS to confirm LMN denervation and identify the specific nerve involved. Pelvic radiographs or CT if trauma is suspected.'
+    }
+  },
+  {
+    id:'P_GenLMN', title:'Generalized Neuromuscular Disease',
+    color:'#dc2626', badgeBg:'#fee2e2', badgeText:'#7f1d1d',
+    borderColor:'#f43f5e', spineY:50,
+    limbs:['all_four'], postural:['all_four'],
+    reflexThoracic:'decreased', reflexPelvic:'decreased',
+    umn:{thoracic:'LMN',pelvic:'LMN'},
+    explanation:'Decreased reflexes in ALL four limbs is not a spinal cord pattern. Think polyneuropathy, neuromuscular junction disease (myasthenia gravis, botulism, tick paralysis), or myopathy. A systematic approach to the neuromuscular examination is essential.',
+    review:{
+      localization:'This is NOT a spinal cord localization. No single spinal cord lesion produces LMN signs in all four limbs simultaneously.\n\nDiffuse LMN signs indicate disease at one of three levels of the motor unit:\n1. Peripheral nerve (polyneuropathy) — axon or myelin disease\n2. Neuromuscular junction (junctionopathy) — synaptic transmission failure\n3. Muscle (myopathy) — primary muscle disease\n\nAdditional clinical signs help distinguish these: cranial nerve involvement, exercise intolerance, megaesophagus, respiratory compromise, and the pattern of muscle involvement (distal vs. proximal).',
+      umnLmn:'All four limbs show LMN signs, but the character varies:\n\nPolyneuropathy:\n• Flaccid weakness, typically distal > proximal (ascending)\n• Decreased or absent reflexes; neurogenic muscle atrophy\n• Sensory deficits may be present\n• Examples: diabetic neuropathy, hypothyroid neuropathy\n\nNeuromuscular Junction Disease:\n• Exercise-induced weakness that IMPROVES with rest — key distinguishing feature\n• Reflexes may be normal or decreased; no muscle atrophy\n• Cranial nerve signs common (megaesophagus, facial weakness)\n• Examples: myasthenia gravis, botulism, tick paralysis\n\nMyopathy:\n• Proximal > distal weakness; pain on muscle palpation\n• Markedly elevated serum CK\n• Examples: immune-mediated polymyositis, muscular dystrophy',
+      differentials:[
+        {name:'Myasthenia Gravis (acquired or congenital)',reason:'Autoantibodies against nicotinic acetylcholine receptors block neuromuscular transmission. Classic signs: episodic weakness worsening with exercise and improving with rest, megaesophagus (~90% of acquired cases), aspiration pneumonia. Diagnosis: serum acetylcholine receptor antibody titer.'},
+        {name:'Acute Polyradiculoneuritis (Coonhound Paralysis)',reason:'Immune-mediated attack on peripheral nerve roots, often following raccoon exposure. Rapid ascending flaccid paralysis over 24–72 hours, hyporeflexia to areflexia, intact pain sensation, normal mentation. Respiratory paralysis possible. Usually self-limiting over 2–6 months.'},
+        {name:'Botulism (Clostridium botulinum neurotoxin)',reason:'Neurotoxin blocks presynaptic acetylcholine vesicle release. Rapid onset of symmetric flaccid tetraplegia with cranial nerve involvement. EMG hallmark: decreased amplitude CMAPs with normal NCV — distinguishing it from polyneuropathy. History of carrion or raw meat ingestion.'}
+      ],
+      pearl:'When all four limbs have LMN signs, think outside the spine. Use this three-question screen:\n\n1. Does weakness improve dramatically with rest? → Suspect neuromuscular junction disease (MG, botulism, tick paralysis)\n2. Is the CK markedly elevated? → Suspect myopathy (polymyositis, muscular dystrophy)\n3. Is there distal-to-proximal ascending pattern with sensory deficits? → Suspect polyneuropathy\n\nAlways take thoracic radiographs — megaesophagus strongly supports myasthenia gravis and carries a serious risk of aspiration pneumonia.',
+      workup:'CBC, serum chemistry, serum CK, urinalysis. Thyroid panel (T4, free T4, TSH) — hypothyroidism is a reversible cause of polyneuropathy. Acetylcholine receptor antibody titer (acquired MG). Thoracic radiographs (megaesophagus, aspiration pneumonia, thymoma). EMG and NCS: decreased amplitude CMAPs with normal NCV = junctionopathy; decreased NCV = polyneuropathy. Muscle/nerve biopsy for definitive diagnosis. Edrophonium (Tensilon) test for suspected MG. Full body tick search for suspected tick paralysis.'
+    }
+  }
+];
+
+// ── HELPERS ───────────────────────────────────────────────────────────────────
+function getProgress() {
+  var n=0;
+  if(state.limbs.length>0) n++;
+  if(state.postural) n++;
+  if(state.reflexThoracic) n++;
+  if(state.reflexPelvic) n++;
+  return Math.round((n/4)*100);
+}
+
+function canSubmit() {
+  return state.limbs.length>0 && state.postural &&
+    !(state.postural==='one_limb' && !state.posturalLimb) &&
+    state.reflexThoracic && state.reflexPelvic;
+}
+
+function umnColorStyle(v) {
+  if(v.includes('LMN')) return 'color:#ef4444';
+  if(v==='Normal') return 'color:#64748b';
+  return 'color:#22c55e';
+}
+
+function spineSegSVG(spineY) {
+  var segs=[
+    {label:'C1–C5',y:8, hex:'#6366f1'},
+    {label:'C6–T2',y:24,hex:'#8b5cf6'},
+    {label:'T3–L3',y:46,hex:'#3b82f6'},
+    {label:'L4–S3',y:68,hex:'#06b6d4'},
+  ];
+  var html='<svg viewBox="0 0 64 100" style="width:56px;height:96px;flex-shrink:0">';
+  html+='<rect x="28" y="4" width="8" height="92" rx="4" fill="#e2e8f0"/>';
+  segs.forEach(function(s){
+    var active=spineY!==null&&Math.abs(spineY-s.y)<18;
+    html+='<rect x="24" y="'+s.y+'" width="16" height="14" rx="3" fill="'+(active?s.hex:'#cbd5e1')+'" opacity="'+(active?1:0.45)+'"/>';
+    html+='<text x="44" y="'+(s.y+10)+'" font-size="6" fill="'+(active?s.hex:'#94a3b8')+'" font-weight="'+(active?'bold':'normal')+'">'+s.label+'</text>';
+  });
+  html+='</svg>';
+  return html;
+}
+
+// ── UPDATE UI ─────────────────────────────────────────────────────────────────
+function updateRing() {
+  var p=getProgress();
+  var r=18, circ=2*Math.PI*r;
+  var dash=(p/100)*circ;
+  var ring=document.getElementById('ring-progress');
+  var txt=document.getElementById('ring-text');
+  if(!ring||!txt) return;
+  ring.setAttribute('stroke-dasharray',dash+' '+circ);
+  ring.setAttribute('stroke',p===100?'#22c55e':'#4f46e5');
+  txt.textContent=p+'%';
+  txt.setAttribute('fill',p===100?'#22c55e':'#4f46e5');
+}
+
+function updateSubmitBtn() {
+  var btn=document.getElementById('submit-btn');
+  var txt=document.getElementById('submit-text');
+  if(!btn||!txt) return;
+  var p=getProgress();
+  if(canSubmit()){
+    btn.className='submit-btn ready';
+    txt.textContent='Suggest Neurolocalization';
+  } else {
+    btn.className='submit-btn disabled';
+    txt.textContent='Complete all fields to continue ('+p+'%)';
+  }
+}
+
+function updateLimbHint() {
+  var hint=document.getElementById('limb-hint');
+  if(!hint) return;
+  var n=state.limbs.length;
+  var msg='';
+  if(n===4) msg='All four limbs → tetraparesis / tetraplegia';
+  else if(n===2&&state.limbs.every(function(l){return l.endsWith('b');})) msg='Both pelvic limbs → paraparesis';
+  else if(n===2&&state.limbs.every(function(l){return l.endsWith('f');})) msg='Both thoracic limbs → cervical intumescence?';
+  else if(n===1) msg='One limb → monoparesis';
+  else if(n===2) msg='Hemiparesis pattern';
+  hint.textContent=msg;
+  hint.style.display=msg?'block':'none';
+}
+
+// ── INTERACTIONS ──────────────────────────────────────────────────────────────
+function toggleLimb(l) {
+  var idx=state.limbs.indexOf(l);
+  if(idx>=0) state.limbs.splice(idx,1);
+  else state.limbs.push(l);
+  ['rf','lf','rb','lb'].forEach(function(k){
+    var btn=document.getElementById('lb-'+k);
+    var chk=document.getElementById('chk-'+k);
+    if(!btn||!chk) return;
+    if(state.limbs.includes(k)){
+      btn.classList.add('active');
+      chk.style.display='block';
+    } else {
+      btn.classList.remove('active');
+      chk.style.display='none';
+    }
+  });
+  updateLimbHint();
+  updateRing();
+  updateSubmitBtn();
+}
+
+function setPostural(val) {
+  state.postural=val;
+  state.posturalLimb='';
+  ['all_four','front_only','back_only','one_limb','normal'].forEach(function(v){
+    var btn=document.getElementById('pb-'+v);
+    if(btn) btn.className='post-btn'+(v===val?' active':'');
+  });
+  var sub=document.getElementById('limb-sub');
+  if(sub) sub.style.display=val==='one_limb'?'block':'none';
+  ['rf','lf','rb','lb'].forEach(function(k){
+    var b=document.getElementById('psb-'+k);
+    if(b) b.className='limb-sub-btn';
+  });
+  updateRing();
+  updateSubmitBtn();
+}
+
+function setPosturalLimb(val) {
+  state.posturalLimb=val;
+  ['rf','lf','rb','lb'].forEach(function(k){
+    var b=document.getElementById('psb-'+k);
+    if(b) b.className='limb-sub-btn'+(k===val?' active':'');
+  });
+  updateRing();
+  updateSubmitBtn();
+}
+
+function setReflex(type, val) {
+  if(type==='thoracic') state.reflexThoracic=val;
+  else state.reflexPelvic=val;
+  ['decreased','normal_increased'].forEach(function(v){
+    var btn=document.getElementById('r'+(type==='thoracic'?'t':'p')+'-'+v);
+    if(!btn) return;
+    btn.className='reflex-btn';
+    if(v===val) btn.classList.add(v==='decreased'?'lmn':'umn');
+  });
+  updateRing();
+  updateSubmitBtn();
+}
+
+function resetAll() {
+  state.limbs=[];
+  state.postural='';
+  state.posturalLimb='';
+  state.reflexThoracic='';
+  state.reflexPelvic='';
+  state.result=null;
+  state.reviewOpen=false;
+  state.reviewTab='localization';
+  if(state.typewriterTimer) clearInterval(state.typewriterTimer);
+  // Reset limb buttons
+  ['rf','lf','rb','lb'].forEach(function(k){
+    var btn=document.getElementById('lb-'+k);
+    var chk=document.getElementById('chk-'+k);
+    if(btn) btn.classList.remove('active');
+    if(chk) chk.style.display='none';
+  });
+  // Reset postural
+  ['all_four','front_only','back_only','one_limb','normal'].forEach(function(v){
+    var btn=document.getElementById('pb-'+v);
+    if(btn) btn.className='post-btn';
+  });
+  var sub=document.getElementById('limb-sub');
+  if(sub) sub.style.display='none';
+  // Reset reflexes
+  ['rt-decreased','rt-normal_increased','rp-decreased','rp-normal_increased'].forEach(function(id){
+    var btn=document.getElementById(id);
+    if(btn) btn.className='reflex-btn';
+  });
+  // Reset results
+  var card=document.getElementById('results-card');
+  if(card) card.className='results-card';
+  var rbtn=document.getElementById('review-btn');
+  if(rbtn) rbtn.style.display='none';
+  var body=document.getElementById('results-body');
+  if(body) body.innerHTML='<div class="empty-state"><svg width="52" height="52" viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><p>Fill in the exam findings on the left, then press <strong>Suggest Neurolocalization</strong>.</p></div>';
+  updateLimbHint();
+  updateRing();
+  updateSubmitBtn();
+}
+
+// ── SCORING ───────────────────────────────────────────────────────────────────
+function suggest() {
+  if(!canSubmit()) return;
+  state.reviewOpen=false;
+  var scored=PATTERNS.map(function(pat){
+    var s=0;
+    if(pat.limbs.some(function(l){return state.limbs.includes(l);})) s+=2;
+    if(state.limbs.length===4&&pat.limbs.includes('all_four')) s+=3;
+    if(pat.postural.includes(state.postural)) s+=3;
+    if(pat.reflexThoracic===state.reflexThoracic) s+=2;
+    if(pat.reflexPelvic===state.reflexPelvic) s+=2;
+    return Object.assign({},pat,{score:s});
+  });
+  var best=Math.max.apply(null,scored.map(function(s){return s.score;}));
+  state.result=scored.filter(function(s){return s.score===best&&s.score>2;});
+  renderResults();
+  // Mobile scroll
+  if(window.innerWidth<800){
+    var col=document.getElementById('results-col');
+    if(col) setTimeout(function(){col.scrollIntoView({behavior:'smooth',block:'start'});},100);
+  }
+}
+
+// ── RENDER RESULTS ────────────────────────────────────────────────────────────
+function renderResults() {
+  var card=document.getElementById('results-card');
+  var rbtn=document.getElementById('review-btn');
+  var body=document.getElementById('results-body');
+  if(!card||!body||!rbtn) return;
+  card.className='results-card active fade-in';
+
+  if(!state.result||state.result.length===0){
+    rbtn.style.display='none';
+    body.innerHTML='<div class="no-match"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span>No pattern matched. Some combinations are anatomically inconsistent — review your selections.</span></div>';
+    return;
+  }
+
+  rbtn.style.display=state.reviewOpen?'none':'flex';
+
+  var html='<div class="fade-in">';
+
+  // Case review
+  if(state.reviewOpen){
+    html+=renderCaseReview(state.result[0]);
+  }
+
+  // Match cards
+  state.result.forEach(function(m,idx){
+    var posturalText=state.postural==='one_limb'
+      ?'Delayed in '+LIMB_LABELS[state.posturalLimb]+' only'
+      :state.postural.replace(/_/g,' ');
+    var tRefText=state.reflexThoracic==='decreased'?'↓ Decreased':'↑ Normal/Increased';
+    var pRefText=state.reflexPelvic==='decreased'?'↓ Decreased':'↑ Normal/Increased';
+    var tRefColor=state.reflexThoracic==='decreased'?'color:#ef4444':'color:#22c55e';
+    var pRefColor=state.reflexPelvic==='decreased'?'color:#ef4444':'color:#22c55e';
+
+    html+='<div class="match-card" style="border-color:'+m.borderColor+';margin-bottom:1.25rem">';
+    html+='<span class="match-badge" style="background:'+m.badgeBg+';color:'+m.badgeText+'">'+(idx===0?'✓ Primary Localization':'Differential')+'</span>';
+    html+='<div class="match-inner">';
+    html+='<div class="match-content">';
+    html+='<div class="match-title">'+m.title+'</div>';
+    html+='<div class="umn-pills">';
+    html+='<div class="umn-pill"><div class="pill-seg">Thoracic</div><div class="pill-val" style="'+umnColorStyle(m.umn.thoracic)+'">'+m.umn.thoracic+'</div></div>';
+    html+='<div class="umn-pill"><div class="pill-seg">Pelvic</div><div class="pill-val" style="'+umnColorStyle(m.umn.pelvic)+'">'+m.umn.pelvic+'</div></div>';
+    html+='</div>';
+    html+='<ul class="finding-list">';
+    html+='<li class="finding-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polyline points="9 18 15 12 9 6"/></svg><span>Limbs: <strong>'+state.limbs.map(function(l){return LIMB_LABELS[l];}).join(', ')+'</strong></span></li>';
+    html+='<li class="finding-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polyline points="9 18 15 12 9 6"/></svg><span>Postural: <strong>'+posturalText+'</strong></span></li>';
+    html+='<li class="finding-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#818cf8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;margin-top:2px"><polyline points="9 18 15 12 9 6"/></svg><span>Thoracic reflexes: <strong style="'+tRefColor+'">'+tRefText+'</strong> · Pelvic: <strong style="'+pRefColor+'">'+pRefText+'</strong></span></li>';
+    html+='</ul>';
+    html+='<div class="explanation-box">'+m.explanation+'</div>';
+    html+='</div>';
+    html+=spineSegSVG(m.spineY);
+    html+='</div></div>';
+  });
+
+  html+='</div>';
+  body.innerHTML=html;
+}
+
+// ── CASE REVIEW ───────────────────────────────────────────────────────────────
+function openReview() {
+  state.reviewOpen=true;
+  state.reviewTab='localization';
+  var rbtn=document.getElementById('review-btn');
+  if(rbtn) rbtn.style.display='none';
+  renderResults();
+  startTypewriter();
+}
+
+function closeReview() {
+  state.reviewOpen=false;
+  state.reviewTab='localization';
+  if(state.typewriterTimer) clearInterval(state.typewriterTimer);
+  var rbtn=document.getElementById('review-btn');
+  if(rbtn) rbtn.style.display='flex';
+  renderResults();
+}
+
+function switchTab(tab) {
+  state.reviewTab=tab;
+  if(state.typewriterTimer) clearInterval(state.typewriterTimer);
+  renderResults();
+  if(tab==='localization') startTypewriter();
+}
+
+function renderCaseReview(match) {
+  var r=match.review;
+  var posturalText=state.postural==='one_limb'
+    ?'Delayed only in the '+LIMB_LABELS[state.posturalLimb]
+    :state.postural.replace(/_/g,' ');
+  var html='<div class="review-panel fade-in" style="margin-bottom:1.25rem">';
+  // Header
+  html+='<div class="review-panel-header">';
+  html+='<div class="review-panel-header-left">';
+  html+='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  html+='<span class="review-panel-title">Professor\'s Case Review</span>';
+  html+='<span class="review-panel-badge">'+match.title+'</span>';
+  html+='</div>';
+  html+='<button class="close-btn" onclick="closeReview()">✕ Close</button>';
+  html+='</div>';
+  // Tabs
+  var tabs=[
+    {id:'localization',label:'📍 Localization'},
+    {id:'umnlmn',label:'⚡ UMN vs LMN'},
+    {id:'ddx',label:'🔬 Differentials'},
+    {id:'workup',label:'🩻 Workup'},
+    {id:'pearl',label:'💎 Pearl'},
+  ];
+  html+='<div class="tabs">';
+  tabs.forEach(function(t){
+    html+='<button class="tab-btn'+(state.reviewTab===t.id?' active':'')+'" onclick="switchTab(\''+t.id+'\')">'+t.label+'</button>';
+  });
+  html+='</div>';
+  // Tab content
+  html+='<div class="tab-content fade-fast">';
+  if(state.reviewTab==='localization'){
+    html+='<div id="typewriter-target" class="typing" style="white-space:pre-line">'+escHtml(r.localization)+'</div>';
+  } else if(state.reviewTab==='umnlmn'){
+    html+='<div class="umnlmn-pills">';
+    [{seg:'Thoracic',val:match.umn.thoracic},{seg:'Pelvic',val:match.umn.pelvic}].forEach(function(item){
+      var isLMN=item.val.includes('LMN');
+      var isNorm=item.val==='Normal';
+      var bg=isLMN?'#fff1f2':isNorm?'#f8fafc':'#f0fdf4';
+      var bc=isLMN?'#fecdd3':isNorm?'#e2e8f0':'#bbf7d0';
+      var vc=isLMN?'#ef4444':isNorm?'#64748b':'#22c55e';
+      html+='<div class="umnlmn-pill" style="background:'+bg+';border-color:'+bc+'">';
+      html+='<div class="seg">'+item.seg+'</div>';
+      html+='<div class="val" style="color:'+vc+'">'+item.val+'</div>';
+      html+='</div>';
+    });
+    html+='</div>';
+    html+='<div style="white-space:pre-line">'+escHtml(r.umnLmn)+'</div>';
+  } else if(state.reviewTab==='ddx'){
+    html+='<div style="font-size:.72rem;font-weight:700;text-transform:uppercase;color:#94a3b8;letter-spacing:.05em;margin-bottom:.75rem">Top Differential Diagnoses</div>';
+    r.differentials.forEach(function(d,i){
+      html+='<div class="ddx-item">';
+      html+='<div><span class="ddx-num">#'+(i+1)+'</span><span class="ddx-name">'+escHtml(d.name)+'</span></div>';
+      html+='<div class="ddx-reason">'+escHtml(d.reason)+'</div>';
+      html+='</div>';
+    });
+  } else if(state.reviewTab==='workup'){
+    html+='<div class="workup-box" style="white-space:pre-line">'+escHtml(r.workup)+'</div>';
+  } else if(state.reviewTab==='pearl'){
+    html+='<div class="pearl-box">';
+    html+='<div class="pearl-header"><span style="font-size:1.5rem">💎</span><span style="font-weight:700;color:#78350f;font-size:.85rem;text-transform:uppercase;letter-spacing:.05em">Clinical Pearl</span></div>';
+    html+='<div class="pearl-text">'+escHtml(r.pearl)+'</div>';
+    html+='</div>';
+  }
+  html+='</div></div>';
+  return html;
+}
+
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ── TYPEWRITER ────────────────────────────────────────────────────────────────
+function startTypewriter() {
+  if(!state.result||!state.result[0]) return;
+  var fullText=state.result[0].review.localization;
+  var target=document.getElementById('typewriter-target');
+  if(!target) return;
+  target.classList.add('typing');
+  var i=0;
+  target.textContent='';
+  if(state.typewriterTimer) clearInterval(state.typewriterTimer);
+  state.typewriterTimer=setInterval(function(){
+    i++;
+    target.textContent=fullText.slice(0,i);
+    if(i>=fullText.length){
+      clearInterval(state.typewriterTimer);
+      target.classList.remove('typing');
+    }
+  },9);
+}
+</script>
+</body>
+</html>
+
+							<script>
+                            	
+							</script>
+                        </body>
+                        </html>
+                    
